@@ -1,19 +1,14 @@
 <?php
-// إعدادات أمان الجلسة والكوكيز لتتوافق مع حماية HTTPS في السيرفر السحابي
 ini_set('session.cookie_secure', '1');
 ini_set('session.cookie_httponly', '1');
 ini_set('session.cookie_samesite', 'Lax');
-
 session_start();
 include "db.php"; 
 
-// التحقق من تسجيل الدخول
+// التحقق من تسجيل الدخول برابط كامل ومباشر
 if(!isset($_SESSION['EmployeeID'])) {
-    echo "⚠️ تم إيقاف التوجيه التلقائي بنجاح. الجلسة فارغة، والسبب غالباً في الاتصال بالقاعدة أو الكوكيز.<br>";
-    echo "اضغط هنا للانتقال لصفحة تسجيل الدخول يدوياً: <a href='login.php'>تسجيل الدخول</a>";
+    header("Location: https://watersystem-production-87fb.up.railway.app/login.php");
     exit();
-  //  header("Location: login.php");
-  //  exit();
 }
 // ... باقي كود الـ index كما هو ...
 
