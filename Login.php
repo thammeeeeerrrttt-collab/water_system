@@ -1,8 +1,14 @@
 <?php
+// إعدادات أمان الجلسة والكوكيز لتتوافق مع حماية HTTPS في السيرفر السحابي
+ini_set('session.cookie_secure', '1');
+ini_set('session.cookie_httponly', '1');
+ini_set('session.cookie_samesite', 'Lax');
+
 session_start();
 include "db.php";
 
 $error = "";
+// ... باقي كود الـ login كما هو تماماً دون تغيير ...
 
 if(isset($_POST['login'])) {
 
