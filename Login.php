@@ -65,7 +65,7 @@ if(isset($_POST['login'])) {
                 $_SESSION['Role'] = $row['RoleName'];
                 $_SESSION['Location'] = $row['Location']; // إضافة منطقة الموظف للجلسة
 
-                header("Location: index.php");
+                header("Location: https://watersystem-production-87fb.up.railway.app/index.php");
                 exit();
 
             } 
@@ -79,7 +79,7 @@ if(isset($_POST['login'])) {
                     $_SESSION['Role'] = $row['RoleName'];
                     $_SESSION['Location'] = $row['Location']; // إضافة منطقة الموظف للجلسة
 
-                    header("Location: index.php");
+                    header("Location: https://watersystem-production-87fb.up.railway.app/index.php");
                     exit();
                 } else {
                     // الرموز غير متطابقة -> يحاول الدخول من جهاز آخر
