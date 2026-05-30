@@ -9,8 +9,11 @@ include "db.php";
 
 // التحقق من تسجيل الدخول
 if(!isset($_SESSION['EmployeeID'])) {
-    header("Location: login.php");
+    echo "⚠️ تم إيقاف التوجيه التلقائي بنجاح. الجلسة فارغة، والسبب غالباً في الاتصال بالقاعدة أو الكوكيز.<br>";
+    echo "اضغط هنا للانتقال لصفحة تسجيل الدخول يدوياً: <a href='login.php'>تسجيل الدخول</a>";
     exit();
+  //  header("Location: login.php");
+  //  exit();
 }
 // ... باقي كود الـ index كما هو ...
 
