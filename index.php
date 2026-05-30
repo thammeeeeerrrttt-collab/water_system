@@ -1,4 +1,9 @@
 <?php
+// إعدادات أمان الجلسة والكوكيز لتتوافق مع حماية HTTPS في السيرفر السحابي
+ini_set('session.cookie_secure', '1');
+ini_set('session.cookie_httponly', '1');
+ini_set('session.cookie_samesite', 'Lax');
+
 session_start();
 include "db.php"; 
 
@@ -7,6 +12,7 @@ if(!isset($_SESSION['EmployeeID'])) {
     header("Location: login.php");
     exit();
 }
+// ... باقي كود الـ index كما هو ...
 
 $name = $_SESSION['EmployeeName'] ?? $_SESSION['Name']; 
 $role = $_SESSION['Role']; 
