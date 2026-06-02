@@ -2,22 +2,18 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-ini_set('session.cookie_secure', '1');
-ini_set('session.cookie_httponly', '1');
-ini_set('session.cookie_samesite', 'Lax');
-
 session_start();
 include "db.php";
 
-// التحقق من تسجيل الدخول
-echo "<pre>";
-print_r($_SESSION);
-echo "</pre>";
-exit();
-// ... باقي كود الـ index كما هو ...
+// 🎯 التحقق من تسجيل الدخول: إذا كانت الجلسة فارغة، حوّله فوراً لصفحة الدخول
+if (!isset($_SESSION['EmployeeID'])) {
+    header("Location: login.php");
+    exit();
+}
 
-$name = $_SESSION['EmployeeName'] ?? $_SESSION['Name']; 
-$role = $_SESSION['Role']; 
+// جلب بيانات الموظف بعد التأكد من وجود الجلسة
+$name = $_SESSION['Name'] ?? $_SESSION['EmployeeName'] ?? 'موظف'; 
+$role = $_SESSION['Role'] ?? ''; 
 ?>
 
 <!DOCTYPE html>
