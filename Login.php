@@ -1,14 +1,8 @@
 <?php
-// إعدادات أمان الجلسة والكوكيز لتتوافق مع حماية HTTPS في السيرفر السحابي
-ini_set('session.cookie_secure', '1');
-ini_set('session.cookie_httponly', '1');
-ini_set('session.cookie_samesite', 'Lax');
-
 session_start();
 include "db.php";
 
 $error = "";
-// ... باقي كود الـ login كما هو تماماً دون تغيير ...
 
 if(isset($_POST['login'])) {
 
@@ -32,15 +26,12 @@ if(isset($_POST['login'])) {
 
         $row = $result->fetch_assoc();
         
-        $db_password = $row['Password']; // كلمة المرور المحفوظة في القاعدة (قد تكون مشفرة أو نص عادي)
+        $db_password = $row['Password']; // كلمة المرور المحفوظة في القاعدة
         
         // 2. التحقق الذكي من كلمة المرور
-        // password_verify: تتحقق من الكلمة المشفرة (للموظفين الجدد)
-        // $password === $db_password: تتحقق من النص العادي (للموظفين القدامى)
         if (password_verify($password, $db_password) || $password === $db_password) {
             
             // --- كلمة المرور صحيحة، نكمل الآن إجراءات فحص الجهاز (Device Token) ---
-            
             $employee_id = $row['EmployeeID'];
             $db_device_token = $row['DeviceToken'];
             
@@ -63,9 +54,9 @@ if(isset($_POST['login'])) {
                 $_SESSION['EmployeeID'] = $row['EmployeeID'];
                 $_SESSION['Name'] = $row['Name'];
                 $_SESSION['Role'] = $row['RoleName'];
-                $_SESSION['Location'] = $row['Location']; // إضافة منطقة الموظف للجلسة
+                $_SESSION['Location'] = $row['Location']; 
 
-                header("Location: https://watersystem-production-87fb.up.railway.app/index.php");
+                header("Location: index.php"); // 🎯 توجيه نسبي مباشر وآمن متوافق مع السيرفر
                 exit();
 
             } 
@@ -77,9 +68,9 @@ if(isset($_POST['login'])) {
                     $_SESSION['EmployeeID'] = $row['EmployeeID'];
                     $_SESSION['Name'] = $row['Name'];
                     $_SESSION['Role'] = $row['RoleName'];
-                    $_SESSION['Location'] = $row['Location']; // إضافة منطقة الموظف للجلسة
+                    $_SESSION['Location'] = $row['Location']; 
 
-                    header("Location: https://watersystem-production-87fb.up.railway.app/index.php");
+                    header("Location: index.php"); // 🎯 توجيه نسبي مباشر وآمن متوافق مع السيرفر
                     exit();
                 } else {
                     // الرموز غير متطابقة -> يحاول الدخول من جهاز آخر
