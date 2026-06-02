@@ -68,8 +68,8 @@ if(isset($_POST['login'])) {
                 $_SESSION['Role'] = $row['RoleName'];
                 $_SESSION['Location'] = $row['Location']; 
 
-                header("Location: index.php"); // 🎯 توجيه نسبي مباشر وآمن متوافق مع السيرفر
-                exit();
+               echo "<script>window.location.href = 'index.php';</script>";
+               exit();
 
             } 
             // الحالة الثانية: الموظف لديه جهاز مربوط مسبقاً
