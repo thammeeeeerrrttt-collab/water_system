@@ -1,20 +1,11 @@
 <?php
-// إجبار السيرفر السحابي على قراءة الجلسة من نفس المسار المستقر
-if (!is_dir('/tmp/sessions')) {
-    @mkdir('/tmp/sessions', 0777, true);
-}
-ini_set('session.save_path', '/tmp/sessions');
-
-ini_set('session.cookie_secure', '1');
-ini_set('session.cookie_httponly', '1');
-ini_set('session.cookie_samesite', 'None');
-
 session_start();
 include "db.php";
 
-// التحقق من تسجيل الدخول
+// فحص ذكي: إذا كان المستخدم غير مسجل دخول، نقوم بتحويله لصفحة login.php
 if (!isset($_SESSION['EmployeeID'])) {
-    header("Location: login.php");
+    // إذا فشل التوجيه عبر السيرفر، نستخدم جافا سكريبت كحل قاطع ومضمون يكسر الـ Loop في المتصفح
+    echo "<script>window.location.href = 'login.php';</script>";
     exit();
 }
 
