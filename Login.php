@@ -1,8 +1,20 @@
 <?php
+// إجبار السيرفر السحابي على حفظ ملفات الجلسة في مسار مؤقت مستقر
+if (!is_dir('/tmp/sessions')) {
+    @mkdir('/tmp/sessions', 0777, true);
+}
+ini_set('session.save_path', '/tmp/sessions');
+
+// إعدادات الكوكيز الصارمة لتتوافق مع حماية FrankenPHP و HTTPS أونلاين
+ini_set('session.cookie_secure', '1');
+ini_set('session.cookie_httponly', '1');
+ini_set('session.cookie_samesite', 'None'); // تم التعديل إلى None لتتوافق مع النطاقات الفرعية لـ Railway
+
 session_start();
 include "db.php";
 
 $error = "";
+// ... باقي كود الـ login كما هو تماماً دون أي تغيير ...
 
 if(isset($_POST['login'])) {
 
