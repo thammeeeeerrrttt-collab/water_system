@@ -8,18 +8,12 @@ ini_set('session.cookie_samesite', 'Lax');
 
 session_start();
 include "db.php";
-ini_set('session.cookie_secure', '1');
-ini_set('session.cookie_httponly', '1');
-ini_set('session.cookie_samesite', 'Lax');
-session_start();
-include "db.php"; 
 
-// التحقق من تسجيل الدخول برابط كامل ومباشر
+// التحقق من تسجيل الدخول
 echo "<pre>";
 print_r($_SESSION);
 echo "</pre>";
 exit();
-}
 // ... باقي كود الـ index كما هو ...
 
 $name = $_SESSION['EmployeeName'] ?? $_SESSION['Name']; 
