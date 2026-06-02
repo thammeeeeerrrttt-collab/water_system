@@ -1,17 +1,23 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// إجبار السيرفر السحابي على قراءة الجلسة من نفس المسار المستقر
+if (!is_dir('/tmp/sessions')) {
+    @mkdir('/tmp/sessions', 0777, true);
+}
+ini_set('session.save_path', '/tmp/sessions');
+
+ini_set('session.cookie_secure', '1');
+ini_set('session.cookie_httponly', '1');
+ini_set('session.cookie_samesite', 'None');
 
 session_start();
 include "db.php";
 
-// 🎯 التحقق من تسجيل الدخول: إذا كانت الجلسة فارغة، حوّله فوراً لصفحة الدخول
+// التحقق من تسجيل الدخول
 if (!isset($_SESSION['EmployeeID'])) {
     header("Location: login.php");
     exit();
 }
 
-// جلب بيانات الموظف بعد التأكد من وجود الجلسة
 $name = $_SESSION['Name'] ?? $_SESSION['EmployeeName'] ?? 'موظف'; 
 $role = $_SESSION['Role'] ?? ''; 
 ?>
