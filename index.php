@@ -6,9 +6,10 @@ session_start();
 include "db.php"; 
 
 // التحقق من تسجيل الدخول برابط كامل ومباشر
-if(!isset($_SESSION['EmployeeID'])) {
-    header("Location: https://watersystem-production-87fb.up.railway.app/login.php");
-    exit();
+echo "<pre>";
+print_r($_SESSION);
+echo "</pre>";
+exit();
 }
 // ... باقي كود الـ index كما هو ...
 
