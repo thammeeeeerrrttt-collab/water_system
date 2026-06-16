@@ -1,16 +1,15 @@
 <?php
 session_start();
-include "db.php";
+include "db.php"; 
 
-// فحص ذكي: إذا كان المستخدم غير مسجل دخول، نقوم بتحويله لصفحة login.php
-if (!isset($_SESSION['EmployeeID'])) {
-    // إذا فشل التوجيه عبر السيرفر، نستخدم جافا سكريبت كحل قاطع ومضمون يكسر الـ Loop في المتصفح
-    echo "<script>window.location.href = 'login.php';</script>";
+// التحقق من تسجيل الدخول
+if(!isset($_SESSION['EmployeeID'])) {
+    header("Location: login.php");
     exit();
 }
 
-$name = $_SESSION['Name'] ?? $_SESSION['EmployeeName'] ?? 'موظف'; 
-$role = $_SESSION['Role'] ?? ''; 
+$name = $_SESSION['EmployeeName'] ?? $_SESSION['Name']; 
+$role = $_SESSION['Role']; 
 ?>
 
 <!DOCTYPE html>

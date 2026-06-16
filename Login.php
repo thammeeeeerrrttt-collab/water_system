@@ -1,20 +1,8 @@
 <?php
-// إجبار السيرفر السحابي على حفظ ملفات الجلسة في مسار مؤقت مستقر
-if (!is_dir('/tmp/sessions')) {
-    @mkdir('/tmp/sessions', 0777, true);
-}
-ini_set('session.save_path', '/tmp/sessions');
-
-// إعدادات الكوكيز الصارمة لتتوافق مع حماية FrankenPHP و HTTPS أونلاين
-ini_set('session.cookie_secure', '1');
-ini_set('session.cookie_httponly', '1');
-ini_set('session.cookie_samesite', 'None'); // تم التعديل إلى None لتتوافق مع النطاقات الفرعية لـ Railway
-
 session_start();
 include "db.php";
 
 $error = "";
-// ... باقي كود الـ login كما هو تماماً دون أي تغيير ...
 
 if(isset($_POST['login'])) {
 
@@ -38,12 +26,15 @@ if(isset($_POST['login'])) {
 
         $row = $result->fetch_assoc();
         
-        $db_password = $row['Password']; // كلمة المرور المحفوظة في القاعدة
+        $db_password = $row['Password']; // كلمة المرور المحفوظة في القاعدة (قد تكون مشفرة أو نص عادي)
         
         // 2. التحقق الذكي من كلمة المرور
+        // password_verify: تتحقق من الكلمة المشفرة (للموظفين الجدد)
+        // $password === $db_password: تتحقق من النص العادي (للموظفين القدامى)
         if (password_verify($password, $db_password) || $password === $db_password) {
             
             // --- كلمة المرور صحيحة، نكمل الآن إجراءات فحص الجهاز (Device Token) ---
+            
             $employee_id = $row['EmployeeID'];
             $db_device_token = $row['DeviceToken'];
             
@@ -66,10 +57,10 @@ if(isset($_POST['login'])) {
                 $_SESSION['EmployeeID'] = $row['EmployeeID'];
                 $_SESSION['Name'] = $row['Name'];
                 $_SESSION['Role'] = $row['RoleName'];
-                $_SESSION['Location'] = $row['Location']; 
+                $_SESSION['Location'] = $row['Location']; // إضافة منطقة الموظف للجلسة
 
-               echo "<script>window.location.href = 'index.php';</script>";
-               exit();
+                header("Location: index.php");
+                exit();
 
             } 
             // الحالة الثانية: الموظف لديه جهاز مربوط مسبقاً
@@ -80,9 +71,9 @@ if(isset($_POST['login'])) {
                     $_SESSION['EmployeeID'] = $row['EmployeeID'];
                     $_SESSION['Name'] = $row['Name'];
                     $_SESSION['Role'] = $row['RoleName'];
-                    $_SESSION['Location'] = $row['Location']; 
+                    $_SESSION['Location'] = $row['Location']; // إضافة منطقة الموظف للجلسة
 
-                    header("Location: index.php"); // 🎯 توجيه نسبي مباشر وآمن متوافق مع السيرفر
+                    header("Location: index.php");
                     exit();
                 } else {
                     // الرموز غير متطابقة -> يحاول الدخول من جهاز آخر
